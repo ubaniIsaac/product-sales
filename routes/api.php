@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ProductController;
 
 
 /*
@@ -26,6 +28,8 @@ Route::prefix('v1')->group(function () {
         Route::post('login', [AuthController::class, 'login'])->name('login');
     });
 
-    // Route::apiResource('blog-category', CategoryController::class);
-    // Route::apiResource('blog-post', BlogController::class);
+    Route::middleware('auth:api')->group(function () {
+        Route::apiResource('categories', CategoryController::class);
+        Route::apiResource('products', ProductController::class);
+    });
 });
