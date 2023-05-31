@@ -68,8 +68,11 @@ class ProductController extends Controller
             $product = Product::find($product);
 
             $product->update([
-                'title' => $request->title,
-                'description' => $request->description
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,
+                'seller' => $request->seller,
+                'category_id' => $request->category_id ?? $product->category_id
             ]);
 
             return response()->json([
@@ -79,8 +82,8 @@ class ProductController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => "No product with this Id was found ",
-                'status' => 404
+                'message' => '',
+                'status' => 500
             ]);
         };
     }
