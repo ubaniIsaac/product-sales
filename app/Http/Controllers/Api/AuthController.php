@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\UserSignup;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
+
 class AuthController extends Controller
 {
     //
@@ -19,6 +21,8 @@ class AuthController extends Controller
     {
         $user = User::create($request->validated());
         $token = $user->createToken("$user->name token")->accessToken;
+
+        UserSignup::dispatch($user);
 
         return response()->json([
             'message' => "User created successfully",
